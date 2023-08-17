@@ -1,11 +1,26 @@
-import { Typography, Divider } from 'antd';
-import './App.css';
-import TodoList from './components/TodoList';
-import Filters from './components/Filters';
+import { Typography, Divider } from 'antd'
+import './App.css'
+import TodoList from './components/TodoList'
+import Filters from './components/Filters'
+import { setupServer } from './fakeApis'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { fetchTodos } from './components/TodoList/todoListSlice'
 
-const { Title } = Typography;
+if (process.env.NODE_ENV === 'development') {
+  setupServer()
+}
+
+const { Title } = Typography
 
 function App() {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(fetchTodos())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <div
       style={{
@@ -25,7 +40,7 @@ function App() {
       <Divider />
       <TodoList />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
